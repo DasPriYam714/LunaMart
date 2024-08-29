@@ -54,7 +54,7 @@ import p_img50 from './p_img50.png'
 import p_img51 from './p_img51.png'
 import p_img52 from './p_img52.png'
 import mainLogo from './LunaMart Logo.png'
-
+import heroLogo from './Hero_logo.jpg'
 // import logo from './logo.png'
 import hero_img from './hero_img.png'
 import cart_icon from './cart_icon.png'
@@ -76,7 +76,7 @@ import cross_icon from './cross_icon.png'
 
 export const assets = {
     mainLogo,
-    hero_img,
+    heroLogo,
     cart_icon,
     dropdown_icon,
     exchange_icon,
