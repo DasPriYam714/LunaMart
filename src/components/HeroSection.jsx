@@ -22,7 +22,7 @@ const HeroSection = () => {
         </div>
 
         {/* Hero Right */}
-        <div className="w-full sm:w-1/2" >
+        <div className="w-full sm:w-1/2 rounded" >
         <img src={assets.heroLogo} alt="" />
 
         </div>
