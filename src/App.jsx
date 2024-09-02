@@ -9,6 +9,7 @@ import Product from './pages/Product'
 import ProductCart from './pages/ProductCart'
 import PlaceOrder from './pages/PlaceOrder'
 import OrderList from './pages/OrderList'
+import Footer from './components/Footer';
 
 
 const App = () => {
@@ -33,6 +34,8 @@ const App = () => {
 
 
     </Routes>
+
+    <Footer/>
     
     </div>
   )
