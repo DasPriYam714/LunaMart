@@ -1,19 +1,29 @@
-import { useContext, useState } from "react"
+import { useContext, useState,  useEffect } from "react"
 import { ShopContext } from "../context/ContextShop"
-
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+import Title from "../components/Title";
+import ProductItem from "../components/ProductItem";
 
 const Collection = () => { 
   const{ products }= useContext(ShopContext);
-
+  const [collection, setCollection] = useState([])
+  const [collectionData, setCollectionData] = useState(12)
   const [showFilter, setFilter] = useState(false);
+
+  useEffect(()=>{
+    setCollection(products);
+},[])
+
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
       {/* Filter Option */}
       <div className="min-w-60">
-        <p className="my-2 text-xl flex items-center cursor-pointer gap-2">FILTERS</p>
+        <p onClick={() => setFilter(!showFilter)} className="my-2 text-xl flex items-center cursor-pointer gap-2">FILTERS
+          <IoIosArrowDropdownCircle className={`text-lg sm:hidden ${showFilter ? 'rotate-180' : ''}`}/>
+        </p>
 
         {/* Category Filter */}
-        <div className={`border border-gray-400 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}> 
+        <div className={`border border-gray-400 rounded pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}> 
           <p className="mb-3 text-sm font-medium">CATAGORIES</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
             <p className="flex gap-2">
@@ -33,6 +43,61 @@ const Collection = () => {
 
         </div>
 
+        {/* Type Filter */}
+
+        <div className={`border border-gray-400 rounded pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}> 
+          <p className="mb-3 text-sm font-medium">TYPE</p>
+          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
+            <p className="flex gap-2">
+              <input className="w-3" type="checkbox" value={'Topwear'} /> Topwear
+
+            </p>
+            <p className="flex gap-2">
+              <input className="w-3" type="checkbox" value={'Bottomwear'} /> Bottomwear
+
+            </p>
+            <p className="flex gap-2">
+              <input className="w-3" type="checkbox" value={'Winterwear'} /> Winterwear
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+      {/* products part */}
+      <div className="flex-1">
+        <div className="flex justify-between text-base sm:text-2xl mb-4s pb-8">
+
+          <Title text1={'ALL'} text2={'COLLECTIONS'}/>
+          {/* product sort */}
+          <select className="border-2 rounded border-gray-300 text-sm px-2">
+            <option value="relavent">Sort by: Relavent</option>
+            <option value="high-low">Sort by: High to Low</option>
+            <option value="low-high">Sort by: Low to High</option>
+          </select>
+
+        </div>
+        {/* All collection */}
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+        {
+            collection.slice(0,collectionData).map((item,index)=>(
+                <ProductItem key={index} id={item._id} image={item.image} name={item.name} price={item.price}/>
+            ))
+        }
+
+      </div>
+      <div className={collectionData === collection.length ? 'hidden' : ''}>
+      <button 
+                    onClick={()=> setCollectionData(collection.length)}
+                    className="justify-center"
+                    >View All</button>
+      </div>
+    
       </div>
       
     </div>
