@@ -6,13 +6,56 @@ import ProductItem from "../components/ProductItem";
 
 const Collection = () => { 
   const{ products }= useContext(ShopContext);
-  const [collection, setCollection] = useState([])
-  const [collectionData, setCollectionData] = useState(12)
+   const [collection, setCollection] = useState([])
   const [showFilter, setFilter] = useState(false);
+  const [category, setCategory] =useState([])
+  const [type, setType] = useState([])
 
-  useEffect(()=>{
-    setCollection(products);
-},[])
+
+
+  const toggleCategory =(e) => {
+
+    if(category.includes(e.target.value)){
+      setCategory(prev=> prev.filter(item=> item !== e.target.value))
+
+    }
+    else{
+      setCategory(prev=>[...prev,e.target.value])
+    }
+  }
+
+  const toogleType=(e)=>{
+    if(type.includes(e.target.value)){
+      setType(prev=> prev.filter(item=> item!==e.target.value))
+    }
+    else{
+      setType(prev=>[...prev,e.target.value])
+    }
+  }
+
+const applyFilter = () =>{
+  let productCopy = products.slice();
+
+  if(category.length > 0){
+    productCopy=productCopy.filter(item=> category.includes(item.category));
+  }
+  if(type.length > 0){
+    productCopy = productCopy.filter(item => type.includes(item.subCategory))
+  }
+
+  
+  setCollection(productCopy)
+}
+
+
+
+
+
+ 
+
+useEffect(()=>{
+  applyFilter();
+},[category,type])
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -27,15 +70,15 @@ const Collection = () => {
           <p className="mb-3 text-sm font-medium">CATAGORIES</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Men'} /> Men
+              <input className="w-3" type="checkbox" value={'Men'} onChange={toggleCategory}/> Men
 
             </p>
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Women'} /> Women
+              <input className="w-3" type="checkbox" value={'Women'} onChange={toggleCategory}/> Women
 
             </p>
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Kids'} /> Kids
+              <input className="w-3" type="checkbox" value={'Kids'} onChange={toggleCategory}/> Kids
 
             </p>
 
@@ -49,15 +92,15 @@ const Collection = () => {
           <p className="mb-3 text-sm font-medium">TYPE</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Topwear'} /> Topwear
+              <input className="w-3" type="checkbox" value={'Topwear'} onChange={toogleType}/> Topwear
 
             </p>
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Bottomwear'} /> Bottomwear
+              <input className="w-3" type="checkbox" value={'Bottomwear'}  onChange={toogleType}/> Bottomwear
 
             </p>
             <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={'Winterwear'} /> Winterwear
+              <input className="w-3" type="checkbox" value={'Winterwear'}  onChange={toogleType}/> Winterwear
 
             </p>
 
@@ -85,18 +128,13 @@ const Collection = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
         {
-            collection.slice(0,collectionData).map((item,index)=>(
+            collection.map((item,index)=>(
                 <ProductItem key={index} id={item._id} image={item.image} name={item.name} price={item.price}/>
             ))
         }
 
       </div>
-      <div className={collectionData === collection.length ? 'hidden' : ''}>
-      <button 
-                    onClick={()=> setCollectionData(collection.length)}
-                    className="justify-center"
-                    >View All</button>
-      </div>
+     
     
       </div>
       
